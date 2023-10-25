@@ -26,6 +26,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(3DBoneVisualization
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        toolbar.h toolbar.cpp
+        view.h view.cpp
+        controlpanel.h controlpanel.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET 3DBoneVisualization APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

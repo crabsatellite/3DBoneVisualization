@@ -2,20 +2,28 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLabel>
+#include <QStatusBar>
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
+namespace Ui {
+class MainWindow;
+}
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+public slots:
+    void onOpenFile();
 
 private:
     Ui::MainWindow *ui;
+    QLabel *label;
+    QStatusBar *statusbar;
 };
+
 #endif // MAINWINDOW_H
