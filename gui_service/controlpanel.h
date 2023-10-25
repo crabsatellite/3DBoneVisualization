@@ -1,53 +1,50 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef CONTROLPANEL_H
+#define CONTROLPANEL_H
 
 //**********************************************************************
 // Header includes
 //**********************************************************************
-#include <QStatusBar>
+#include <QLabel>
+#include <QSlider>
+#include <QComboBox>
+#include <QGroupBox>
 #include <QMainWindow>
+#include <QVBoxLayout>
+#include <QDockWidget>
 
 //**********************************************************************
-// Forward declarations
+// Class declarations
 //**********************************************************************
-namespace Ui {
-class MainWindow;
-}
 namespace GUIService {
-class View;
-class ToolBar;
-class ControlPanel;
-}
 
-//**********************************************************************
-// Class declaration
-//**********************************************************************
-class MainWindow : public QMainWindow
+class ControlPanel : public QObject
 {
     Q_OBJECT
 
 public:
 //**********************************************************************
-//  Constructors & destructors
+// Constructors & destructors
 //**********************************************************************
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    ControlPanel();
+    ~ControlPanel() = default;
 
-public slots:
+public:
 //**********************************************************************
-// Public slots
+// Public methods
 //**********************************************************************
-    void onOpenFile();
+    void setupRightPanel(QMainWindow *parent);
 
 private:
 //**********************************************************************
 // Private attributes
 //**********************************************************************
-    Ui::MainWindow* ui;
-    QScopedPointer<QStatusBar> statusbar;
-    QScopedPointer<GUIService::View> view;
-    QScopedPointer<GUIService::ToolBar> toolbar;
-    QScopedPointer<GUIService::ControlPanel> controlPanel;
+    QMap<QString, QSharedPointer<QSlider>> sliders;
+    QMap<QString, QSharedPointer<QLabel>> labels;
+    QSharedPointer<QVBoxLayout> layout;
+    QSharedPointer<QComboBox> comboBox;
+    QSharedPointer<QGroupBox> rightPanel;
+    QSharedPointer<QDockWidget> dockWidget;
 };
+}
 
-#endif // MAINWINDOW_H
+#endif // CONTROLPANEL_H

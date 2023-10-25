@@ -1,53 +1,40 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef VIEW_H
+#define VIEW_H
 
 //**********************************************************************
 // Header includes
 //**********************************************************************
-#include <QStatusBar>
 #include <QMainWindow>
+#include <QLabel>
 
 //**********************************************************************
-// Forward declarations
+// Class declarations
 //**********************************************************************
-namespace Ui {
-class MainWindow;
-}
 namespace GUIService {
-class View;
-class ToolBar;
-class ControlPanel;
-}
 
-//**********************************************************************
-// Class declaration
-//**********************************************************************
-class MainWindow : public QMainWindow
+class View : public QObject
 {
     Q_OBJECT
+public:
+//**********************************************************************
+// Constructors & destructors
+//**********************************************************************
+    View();
+    ~View() = default;
 
 public:
 //**********************************************************************
-//  Constructors & destructors
+// Public methods
 //**********************************************************************
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
-
-public slots:
-//**********************************************************************
-// Public slots
-//**********************************************************************
-    void onOpenFile();
+    void setupView(QMainWindow *parent);
 
 private:
 //**********************************************************************
 // Private attributes
 //**********************************************************************
-    Ui::MainWindow* ui;
-    QScopedPointer<QStatusBar> statusbar;
-    QScopedPointer<GUIService::View> view;
-    QScopedPointer<GUIService::ToolBar> toolbar;
-    QScopedPointer<GUIService::ControlPanel> controlPanel;
+    QSharedPointer<QLabel> label;
 };
 
-#endif // MAINWINDOW_H
+}
+
+#endif // VIEW_H

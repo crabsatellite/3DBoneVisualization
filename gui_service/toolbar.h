@@ -1,53 +1,41 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef TOOLBAR_H
+#define TOOLBAR_H
 
 //**********************************************************************
 // Header includes
 //**********************************************************************
-#include <QStatusBar>
+#include <QAction>
+#include <QToolBar>
 #include <QMainWindow>
-
-//**********************************************************************
-// Forward declarations
-//**********************************************************************
-namespace Ui {
-class MainWindow;
-}
-namespace GUIService {
-class View;
-class ToolBar;
-class ControlPanel;
-}
 
 //**********************************************************************
 // Class declaration
 //**********************************************************************
-class MainWindow : public QMainWindow
+namespace GUIService {
+
+class ToolBar : public QObject
 {
     Q_OBJECT
 
 public:
 //**********************************************************************
-//  Constructors & destructors
+// Constructors & destructors
 //**********************************************************************
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    ToolBar();
+    ~ToolBar() = default;
 
-public slots:
+public:
 //**********************************************************************
-// Public slots
+// Public methods
 //**********************************************************************
-    void onOpenFile();
+    void setupToolbar(QMainWindow *parent);
 
 private:
 //**********************************************************************
 // Private attributes
 //**********************************************************************
-    Ui::MainWindow* ui;
-    QScopedPointer<QStatusBar> statusbar;
-    QScopedPointer<GUIService::View> view;
-    QScopedPointer<GUIService::ToolBar> toolbar;
-    QScopedPointer<GUIService::ControlPanel> controlPanel;
+    QSharedPointer<QToolBar> toolbar;
 };
+}
 
-#endif // MAINWINDOW_H
+#endif // TOOLBAR_H
