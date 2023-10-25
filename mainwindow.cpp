@@ -1,26 +1,39 @@
+//**********************************************************************
+// Header includes
+//**********************************************************************
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "toolbar.h" // Include the toolbar header
-#include "view.h"   // Include the view header
-#include "controlpanel.h" // Include the right panel header
+#include "./gui_service/toolbar.h" // Include the toolbar header
+#include "./gui_service/view.h"   // Include the view header
+#include "./gui_service/controlpanel.h" // Include the right panel header
 #include <QFileDialog>
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
+//**********************************************************************
+// Class method definitions
+//**********************************************************************
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
 {
+    // Setup ui
     ui->setupUi(this);
 
     // Setup Toolbar
-    setupToolbar(this);
+    toolbar.reset(new GUIService::ToolBar());
+    toolbar->setupToolbar(this);
 
     // Setup View
-    setupView(this);
+    view.reset(new GUIService::View());
+    view->setupView(this);
 
     // Setup Right Panel
-    setupRightPanel(this);
+    controlPanel.reset(new GUIService::ControlPanel());
+    controlPanel->setupRightPanel(this);
 
     // Setup Status Bar
-    statusbar = new QStatusBar(this);
-    this->setStatusBar(statusbar);
+    statusbar.reset(new QStatusBar(this));
+    this->setStatusBar(statusbar.data());
     statusbar->showMessage("Ready");
 }
 
@@ -28,7 +41,6 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
 
 void MainWindow::onOpenFile()
 {
