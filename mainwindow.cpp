@@ -4,7 +4,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "./gui_service/toolbar.h" // Include the toolbar header
-#include "./gui_service/view.h"   // Include the view header
 #include "./gui_service/controlpanel.h" // Include the right panel header
 #include <QFileDialog>
 
@@ -22,10 +21,6 @@ MainWindow::MainWindow(QWidget *parent) :
     // Setup Toolbar
     toolbar.reset(new GUIService::ToolBar());
     toolbar->setupToolbar(this);
-
-    // Setup View
-    view.reset(new GUIService::View());
-    view->setupView(this);
 
     // Setup Right Panel
     controlPanel.reset(new GUIService::ControlPanel());

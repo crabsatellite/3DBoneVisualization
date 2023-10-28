@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/shaders">
+        <file>render_service/fragment_shader.fsh</file>
+        <file>render_service/vertex_shader.vsh</file>
+    </qresource>
+    <qresource prefix="/textures">
+        <file>textures/wood.jpg</file>
+    </qresource>
+</RCC>
