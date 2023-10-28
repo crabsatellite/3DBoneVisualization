@@ -14,7 +14,6 @@ namespace Ui {
 class MainWindow;
 }
 namespace GUIService {
-class View;
 class ToolBar;
 class ControlPanel;
 }
@@ -44,10 +43,9 @@ private:
 // Private attributes
 //**********************************************************************
     Ui::MainWindow* ui;
-    QScopedPointer<QStatusBar> statusbar;
-    QScopedPointer<GUIService::View> view;
-    QScopedPointer<GUIService::ToolBar> toolbar;
-    QScopedPointer<GUIService::ControlPanel> controlPanel;
+    QSharedPointer<QStatusBar> statusbar;
+    QSharedPointer<GUIService::ToolBar> toolbar;
+    QSharedPointer<GUIService::ControlPanel> controlPanel;
 };
 
 #endif // MAINWINDOW_H

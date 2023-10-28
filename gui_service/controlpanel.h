@@ -4,12 +4,7 @@
 //**********************************************************************
 // Header includes
 //**********************************************************************
-#include <QLabel>
-#include <QSlider>
-#include <QComboBox>
-#include <QGroupBox>
 #include <QMainWindow>
-#include <QVBoxLayout>
 #include <QDockWidget>
 
 //**********************************************************************
@@ -38,11 +33,6 @@ private:
 //**********************************************************************
 // Private attributes
 //**********************************************************************
-    QMap<QString, QSharedPointer<QSlider>> sliders;
-    QMap<QString, QSharedPointer<QLabel>> labels;
-    QSharedPointer<QVBoxLayout> layout;
-    QSharedPointer<QComboBox> comboBox;
-    QSharedPointer<QGroupBox> rightPanel;
     QSharedPointer<QDockWidget> dockWidget;
 };
 }

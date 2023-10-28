@@ -2,7 +2,12 @@
 // Header includes
 //**********************************************************************
 #include "controlpanel.h"
+#include <QLabel>
+#include <QSlider>
+#include <QGroupBox>
+#include <QComboBox>
 #include <QMainWindow>
+#include <QVBoxLayout>
 
 //**********************************************************************
 // Constants
@@ -16,38 +21,34 @@ const QVector<QString> SLIDER_IDS = {"Rotate X:", "Rotate Y:", "Rotate Z:",
 //**********************************************************************
 GUIService::ControlPanel::ControlPanel()
 {
-    layout.reset(new QVBoxLayout());
-    comboBox.reset(new QComboBox());
-    rightPanel.reset(new QGroupBox("Right Panel"));
     dockWidget.reset(new QDockWidget());
 }
 
 void GUIService::ControlPanel::setupRightPanel(QMainWindow *parent) {
 
     // Add labels and sliders to the layout
+    QVBoxLayout* layout = new QVBoxLayout();
     for ( const auto& slider_id : SLIDER_IDS ) {
-        auto label = QSharedPointer<QLabel>(new QLabel(slider_id, parent));
-        auto slider = QSharedPointer<QSlider>(new QSlider(Qt::Horizontal, parent));
-        sliders[slider_id] = slider;
-        labels[slider_id] = label;
-        layout->addWidget(label.data());
-        layout->addWidget(slider.data());
+        QLabel* label = new QLabel(slider_id);
+        QSlider* slider = new QSlider(Qt::Horizontal);
+        layout->addWidget(label);
+        layout->addWidget(slider);
     }
 
     // Add combo box to the layout
-    comboBox->setParent(parent);
+    QComboBox* comboBox = new QComboBox();
     comboBox->addItems({"Wireframe Mode", "Solid Mode"});
-    layout->addWidget(comboBox.data());
+    layout->addWidget(comboBox);
 
     // Add container for the control panel
-    rightPanel->setParent(parent);
-    rightPanel->setLayout(layout.data());
+    QGroupBox* rightPanel = new QGroupBox("Right Panel");
+    rightPanel->setLayout(layout);
 
     // Add the right panel to the main window
     dockWidget->setParent(parent);
     dockWidget->setWindowTitle("");  // set empty title
     dockWidget->setTitleBarWidget(new QWidget());  // hide title bar
-    dockWidget->setWidget(rightPanel.data());
+    dockWidget->setWidget(rightPanel);
     dockWidget->setFeatures(QDockWidget::DockWidgetMovable);
 
     // Add the QDockWidget to the QMainWindow's right side
