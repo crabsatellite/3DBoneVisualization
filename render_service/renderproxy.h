@@ -8,6 +8,7 @@
 #include <QOpenGLWidget>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions_4_5_Core>
+#include "gui_service/gui_utility.h"
 
 //**********************************************************************
 // Forward declaration
@@ -42,9 +43,12 @@ protected:
     void initializeGL() override;
     void resizeGL(int w, int h) override;
     void paintGL() override;
+
+    // GL widget mouse events
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
 
 private:
 //**********************************************************************
@@ -52,6 +56,13 @@ private:
 //**********************************************************************
     void bindVertexData();
     void compileShaders();
+
+public slots:
+//**********************************************************************
+// Public slots
+//**********************************************************************
+    // Slider mouse event
+    void onSliderMouseEvent(Slider::Action sliderAction, Mouse::Action mouseAction, Slider::Axis sliderAxis, int position = 0);
 
 private:
 //**********************************************************************

@@ -3,6 +3,7 @@
 //**********************************************************************
 #include <QPoint>
 #include <math.h>
+#include <QDebug>
 #include "eventhandler.h"
 #include "render_service/camera.h"
 
@@ -14,20 +15,26 @@ EventHandleService::EventHandler::EventHandler(QObject *parent) : QObject(parent
 
 }
 
-void EventHandleService::EventHandler::onStartMouseClickEvent(QMouseEvent *event)
+void EventHandleService::EventHandler::onStartMouseClickEvent(float mouseClickPosX, float mouseClickPosY)
 {
-    QPoint curMouseClickPos = event->pos();
-    lastMouseClickPosX = curMouseClickPos.x();
-    lastMouseClickPosY = curMouseClickPos.y();
+    lastMouseClickPosX = mouseClickPosX;
+    lastMouseClickPosY = mouseClickPosY;
     startMouseClickEvent = true;
 }
 
-void EventHandleService::EventHandler::onStopMouseClickEvent(QMouseEvent *event)
+void EventHandleService::EventHandler::onStopMouseClickEvent(float mouseClickPosX, float mouseClickPosY)
 {
-    QPoint curMouseClickPos = event->pos();
-    lastMouseClickPosX = curMouseClickPos.x();
-    lastMouseClickPosY = curMouseClickPos.y();
+    lastMouseClickPosX = mouseClickPosX;
+    lastMouseClickPosY = mouseClickPosY;
     startMouseClickEvent = false;
+}
+
+void EventHandleService::EventHandler::onMouseWheelEvent(int delta)
+{
+    int fov = camera->getFOV() - delta;
+    fov = std::max(std::min(fov, 99), 0);
+    camera->setFOV(fov);
+    qDebug() << "FOV is: " << fov;
 }
 
 void EventHandleService::EventHandler::setCamera(RenderService::Camera *camera)
@@ -53,20 +60,19 @@ void EventHandleService::EventHandler::rotateByEulerAngle()
     camera->setCameraPosition(cameraPos);
 }
 
-void EventHandleService::EventHandler::onProcessMouseClickEvent(QMouseEvent *event)
+void EventHandleService::EventHandler::onProcessMouseClickEvent(float mouseClickPosX, float mouseClickPosY, float sensitivity)
 {
     // Reference: https://learnopengl.com/Getting-started/Camera
     if ( startMouseClickEvent ) {
-        QPoint curMouseClickPos = event->pos();
-        yawAngle -= qDegreesToRadians((curMouseClickPos.x() - lastMouseClickPosX) * 0.015);
-        pitchAngle += qDegreesToRadians((curMouseClickPos.y() - lastMouseClickPosY) * 0.015);
+        yawAngle -= qDegreesToRadians((mouseClickPosX - lastMouseClickPosX) * sensitivity);
+        pitchAngle += qDegreesToRadians((mouseClickPosY - lastMouseClickPosY) * sensitivity);
         if ( pitchAngle < -(float)M_PI / 2.0f + 0.1f ) {
             pitchAngle = -(float)M_PI / 2.0f + 0.1f;
         } else if ( pitchAngle > (float)M_PI / 2.0f - 0.1f) {
             pitchAngle = (float)M_PI / 2.0f - 0.1f;
         }
         rotateByEulerAngle();
-        lastMouseClickPosX = curMouseClickPos.x();
-        lastMouseClickPosX = curMouseClickPos.y();
+        lastMouseClickPosX = mouseClickPosX;
+        lastMouseClickPosY = mouseClickPosY;
     }
 }

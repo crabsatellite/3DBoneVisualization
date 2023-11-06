@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QMatrix4x4>
 #include <QMouseEvent>
+#include <QtMath>
 
 // TODO: need to avoid hardcode here
 namespace {
@@ -14,6 +15,8 @@ namespace {
 const float RADIUS = 2.0f;
 const QVector3D VIEW_CENTER = QVector3D(0.0f, 0.0f, 0.0f);
 const QVector3D CAMERA_POSITION = QVector3D(0.0f, 0.0f, 2.0f);
+const float SLIDER_ROTATION_SENSITIVITY = 1.1;
+const float MOUSE_ROTATION_SENSITIVITY = 0.1;
 
 float vertices[] = {
 
@@ -117,21 +120,30 @@ void RenderService::RenderProxy::paintGL()
 
 void RenderService::RenderProxy::mousePressEvent(QMouseEvent *event)
 {
-    eventHandler->onStartMouseClickEvent(event);
+    QPoint curMouseClickPos = event->pos();
+    eventHandler->onStartMouseClickEvent(curMouseClickPos.x(), curMouseClickPos.y());
 }
 
 void RenderService::RenderProxy::mouseReleaseEvent(QMouseEvent *event)
 {
-    eventHandler->onStopMouseClickEvent(event);
+    QPoint curMouseClickPos = event->pos();
+    eventHandler->onStopMouseClickEvent(curMouseClickPos.x(), curMouseClickPos.y());
 }
 
 void RenderService::RenderProxy::mouseMoveEvent(QMouseEvent *event)
 {
     if ( eventHandler->isStartMouseClickEvent() ) {
-        eventHandler->onProcessMouseClickEvent(event);
+        QPoint curMouseClickPos = event->pos();
+        eventHandler->onProcessMouseClickEvent(curMouseClickPos.x(), curMouseClickPos.y(), MOUSE_ROTATION_SENSITIVITY);
         camera->syncCameraOrientation();
         update();
     }
+}
+
+void RenderService::RenderProxy::wheelEvent(QWheelEvent *event)
+{
+    eventHandler->onMouseWheelEvent(event->delta() * 0.01);
+    update();
 }
 
 void RenderService::RenderProxy::bindVertexData()
@@ -173,5 +185,40 @@ void RenderService::RenderProxy::compileShaders()
     success &= shaderProrgam.link();
     if ( !success ) {
         qDebug() << "Shader program link error: " << shaderProrgam.log();
+    }
+}
+
+void RenderService::RenderProxy::onSliderMouseEvent(Slider::Action sliderAction, Mouse::Action mouseAction, Slider::Axis sliderAxis, int position)
+{
+    int pitchPos = sliderAction == Slider::Action::ROTATE && sliderAxis == Slider::Axis::X ? position : 0;
+    int yawPos = sliderAction == Slider::Action::ROTATE && sliderAxis == Slider::Axis::Y ? position : 0;
+
+    switch (sliderAction) {
+        case Slider::Action::ROTATE :
+            switch (mouseAction) {
+                case Mouse::Action::PRESSED :
+                    eventHandler->onStartMouseClickEvent(yawPos, pitchPos);
+                    break;
+                case Mouse::Action::MOVED :
+                    if ( eventHandler->isStartMouseClickEvent() ) {
+                        eventHandler->onProcessMouseClickEvent(yawPos, pitchPos, SLIDER_ROTATION_SENSITIVITY);
+                        camera->syncCameraOrientation();
+                        update();
+                    }
+                    break;
+                case Mouse::Action::RELEASED :
+                    eventHandler->onStopMouseClickEvent(yawPos, pitchPos);
+                    break;
+            }
+            break;
+
+        case Slider::Action::MOVE :
+            // TODO
+            break;
+
+        case Slider::Action::ZOOM:
+            eventHandler->onMouseWheelEvent(position > camera->getFOV() ? -1 : 1);
+            update();
+            break;
     }
 }

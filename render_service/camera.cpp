@@ -14,7 +14,6 @@ namespace {
 
 const float NEAR_PLANE = 0.1;
 const float FAR_PLANE = 100;
-const int FOV = 45;
 
 }
 
@@ -42,7 +41,7 @@ RenderService::Camera::Camera(const QVector3D &cameraPos, const QVector3D &viewC
 QMatrix4x4 RenderService::Camera::getClipMatrix(float ratio) const
 {
     QMatrix4x4 clipMatrix;
-    clipMatrix.perspective(FOV, ratio, NEAR_PLANE, FAR_PLANE);
+    clipMatrix.perspective(fov, ratio, NEAR_PLANE, FAR_PLANE);
     return clipMatrix;
 }
 
