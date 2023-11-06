@@ -6,7 +6,6 @@
 //**********************************************************************
 #include <QtMath>
 #include <QObject>
-#include <QMouseEvent>
 
 //**********************************************************************
 // Forward declarations
@@ -34,9 +33,10 @@ public:
 //**********************************************************************
 // Public methods
 //**********************************************************************
-    void onStartMouseClickEvent(QMouseEvent* event);
-    void onProcessMouseClickEvent(QMouseEvent* event);
-    void onStopMouseClickEvent(QMouseEvent* event);
+    void onStartMouseClickEvent(float mouseClickPosX, float mouseClickPosY);
+    void onProcessMouseClickEvent(float mouseClickPosX, float mouseClickPosY, float sensitivity = 1.0);
+    void onStopMouseClickEvent(float mouseClickPosX, float mouseClickPosY);
+    void onMouseWheelEvent(int delta);
     bool isStartMouseClickEvent() const { return startMouseClickEvent; }
 
     void setCamera(RenderService::Camera* camera);

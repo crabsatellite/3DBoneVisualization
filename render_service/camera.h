@@ -37,6 +37,9 @@ public:
     void setCameraPosition(const QVector3D& cameraPos) { this->cameraPos = cameraPos; }
     QVector3D getCameraPosition() const { return cameraPos; }
 
+    void setFOV(int fov) { this->fov = fov; }
+    int getFOV() const { return fov; }
+
     // Convert target object from world space to camera space
     QMatrix4x4 getViewMatrix() const;
 
@@ -53,6 +56,7 @@ private:
     QVector3D rightDirection; // X axis of camera coordinate space
     QVector3D viewDirection; // Z axis of camera coordinate space
     float radius; // Distance between camera and target object center
+    int fov = 45; // Field of view, related to zoom effect
 };
 
 }
