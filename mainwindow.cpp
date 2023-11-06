@@ -6,6 +6,7 @@
 #include "./gui_service/toolbar.h"
 #include "./gui_service/controlpanel.h"
 #include "./render_service/renderproxy.h"
+#include "./image_process_service/image_processor.h"
 #include <QFileDialog>
 
 //**********************************************************************
@@ -42,9 +43,23 @@ MainWindow::~MainWindow()
 
 void MainWindow::onOpenFile()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, "Open Files", QString(), "Images (*.png *.jpg);;All Files (*)");
-    if (!fileName.isEmpty()) {
-        // TODO: Handle the file
+    QString defaultDicomPath = QDir::current().absoluteFilePath("dicoms");
+    QStringList fileNames = QFileDialog::getOpenFileNames(
+                                this,
+                                tr("Open DICOM Files"),
+                                defaultDicomPath,
+                                tr("DICOM Files (*.dcm)")
+                            );
+
+    if (!fileNames.isEmpty()) {
+        loadedDicomFiles.clear();
+        for (const QString &fileName : fileNames) {
+            qDebug() << "Selected DICOM file:" << fileName;
+            loadedDicomFiles.append(fileName);
+        }
+
+        ImageProcessor imageProcessor;
+        imageProcessor.processDicomFiles(loadedDicomFiles);
     }
 }
 
