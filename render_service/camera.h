@@ -40,6 +40,10 @@ public:
     void setFOV(int fov) { this->fov = fov; }
     int getFOV() const { return fov; }
 
+    QVector3D getRightDirection() const { return rightDirection; }
+    QVector3D getUpDirection() const { return upDirection; }
+    QVector3D getViewDirection() const { return viewDirection; }
+
     // Convert target object from world space to camera space
     QMatrix4x4 getViewMatrix() const;
 

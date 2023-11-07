@@ -16,6 +16,7 @@ const float RADIUS = 2.0f;
 const QVector3D VIEW_CENTER = QVector3D(0.0f, 0.0f, 0.0f);
 const QVector3D CAMERA_POSITION = QVector3D(0.0f, 0.0f, 2.0f);
 const float SLIDER_ROTATION_SENSITIVITY = 1.1;
+const float SLIDER_PAN_SENSITIVITY = 0.01;
 const float MOUSE_ROTATION_SENSITIVITY = 0.1;
 
 float vertices[] = {
@@ -121,20 +122,20 @@ void RenderService::RenderProxy::paintGL()
 void RenderService::RenderProxy::mousePressEvent(QMouseEvent *event)
 {
     QPoint curMouseClickPos = event->pos();
-    eventHandler->onStartMouseClickEvent(curMouseClickPos.x(), curMouseClickPos.y());
+    eventHandler->onStartRotationEvent(curMouseClickPos.x(), curMouseClickPos.y());
 }
 
 void RenderService::RenderProxy::mouseReleaseEvent(QMouseEvent *event)
 {
     QPoint curMouseClickPos = event->pos();
-    eventHandler->onStopMouseClickEvent(curMouseClickPos.x(), curMouseClickPos.y());
+    eventHandler->onStopRotationEvent(curMouseClickPos.x(), curMouseClickPos.y());
 }
 
 void RenderService::RenderProxy::mouseMoveEvent(QMouseEvent *event)
 {
-    if ( eventHandler->isStartMouseClickEvent() ) {
+    if ( eventHandler->isStartRotationEvent() ) {
         QPoint curMouseClickPos = event->pos();
-        eventHandler->onProcessMouseClickEvent(curMouseClickPos.x(), curMouseClickPos.y(), MOUSE_ROTATION_SENSITIVITY);
+        eventHandler->onProcessRotationEvent(curMouseClickPos.x(), curMouseClickPos.y(), MOUSE_ROTATION_SENSITIVITY);
         camera->syncCameraOrientation();
         update();
     }
@@ -142,7 +143,7 @@ void RenderService::RenderProxy::mouseMoveEvent(QMouseEvent *event)
 
 void RenderService::RenderProxy::wheelEvent(QWheelEvent *event)
 {
-    eventHandler->onMouseWheelEvent(event->delta() * 0.01);
+    eventHandler->onProcessZoomEvent(event->delta() * 0.01);
     update();
 }
 
@@ -193,31 +194,48 @@ void RenderService::RenderProxy::onSliderMouseEvent(Slider::Action sliderAction,
     int pitchPos = sliderAction == Slider::Action::ROTATE && sliderAxis == Slider::Axis::X ? position : 0;
     int yawPos = sliderAction == Slider::Action::ROTATE && sliderAxis == Slider::Axis::Y ? position : 0;
 
+    int horizontalPos = sliderAction == Slider::Action::MOVE && sliderAxis == Slider::Axis::X ? position : INT_MAX;
+    int verticalPos = sliderAction == Slider::Action::MOVE && sliderAxis == Slider::Axis::Y ? position : INT_MAX;
+
     switch (sliderAction) {
         case Slider::Action::ROTATE :
             switch (mouseAction) {
                 case Mouse::Action::PRESSED :
-                    eventHandler->onStartMouseClickEvent(yawPos, pitchPos);
+                    eventHandler->onStartRotationEvent(yawPos, pitchPos);
                     break;
                 case Mouse::Action::MOVED :
-                    if ( eventHandler->isStartMouseClickEvent() ) {
-                        eventHandler->onProcessMouseClickEvent(yawPos, pitchPos, SLIDER_ROTATION_SENSITIVITY);
+                    if ( eventHandler->isStartRotationEvent() ) {
+                        eventHandler->onProcessRotationEvent(yawPos, pitchPos, SLIDER_ROTATION_SENSITIVITY);
                         camera->syncCameraOrientation();
                         update();
                     }
                     break;
                 case Mouse::Action::RELEASED :
-                    eventHandler->onStopMouseClickEvent(yawPos, pitchPos);
+                    eventHandler->onStopRotationEvent(yawPos, pitchPos);
                     break;
             }
             break;
 
         case Slider::Action::MOVE :
-            // TODO
+            switch (mouseAction) {
+                case Mouse::Action::PRESSED :
+                    eventHandler->onStartPanEvent(horizontalPos, verticalPos);
+                    break;
+                case Mouse::Action::MOVED :
+                    if ( eventHandler->isStartPanEvent() ) {
+                        eventHandler->onProcessPanEvent(horizontalPos, verticalPos, SLIDER_PAN_SENSITIVITY);
+                        camera->syncCameraOrientation();
+                        update();
+                    }
+                    break;
+                case Mouse::Action::RELEASED :
+                    eventHandler->onStopPanEvent(horizontalPos, verticalPos);
+                    break;
+            }
             break;
 
         case Slider::Action::ZOOM:
-            eventHandler->onMouseWheelEvent(position > camera->getFOV() ? -1 : 1);
+            eventHandler->onProcessZoomEvent(position > camera->getFOV() ? -1 : 1);
             update();
             break;
     }
