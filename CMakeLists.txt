@@ -100,7 +100,6 @@ add_executable(3DBoneVisualization ${PROJECT_SOURCES})
 target_link_libraries(3DBoneVisualization PRIVATE
   Qt${QT_VERSION_MAJOR}::Widgets
   ${OPENGL_LIBRARIES}
-  ${VTK_LIBRARIES}
 )
 
 target_include_directories(3DBoneVisualization PRIVATE

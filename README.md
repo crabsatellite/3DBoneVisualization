@@ -30,3 +30,6 @@ Step4. Open the project with Qt creator, compile the project and run !
 
 Datasets:
 https://github.com/datalad/example-dicom-structural
+
+Vtk Version:
+8.2.0
