@@ -72,3 +72,12 @@ CMakeLists.txt.user*
 *.dll
 *.exe
 
+# CMake generated files
+/build/
+
+# libraries
+/itk/
+/vtk/
+
+# CT images
+/dicoms/

@@ -28,5 +28,8 @@ Click `Configure`, after it is done, click `Generate`, this step should take a w
 
 Step4. Open the project with Qt creator, compile the project and run !
 
+Datasets:
+https://github.com/datalad/example-dicom-structural
 
-
+Vtk Version:
+8.2.0

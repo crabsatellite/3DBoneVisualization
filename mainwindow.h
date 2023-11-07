@@ -43,6 +43,7 @@ private:
 // Private methods
 //**********************************************************************
     void setUpSignalSlotConnections();
+    QList<QString> loadedDicomFiles;
 
 private:
 //**********************************************************************
