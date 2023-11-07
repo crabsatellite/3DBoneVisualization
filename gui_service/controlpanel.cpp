@@ -115,6 +115,42 @@ void GUIService::ControlPanel::onZoomSliderMouseReleasedEvent()
     emit sliderMouseEvent(Slider::Action::ZOOM, Mouse::Action::RELEASED, Slider::Axis::UNDEFINED, slider->value());
 }
 
+void GUIService::ControlPanel::onHorizontalMoveSliderMousePressedEvent()
+{
+    QSlider* slider = sliders[Slider::HORIZONTAL_MOVE_SLIDER_NAME];
+    emit sliderMouseEvent(Slider::Action::MOVE, Mouse::Action::PRESSED, Slider::Axis::X, slider->value());
+}
+
+void GUIService::ControlPanel::onHorizontalMoveSliderMouseMovedEvent(int position)
+{
+    QSlider* slider = sliders[Slider::HORIZONTAL_MOVE_SLIDER_NAME];
+    emit sliderMouseEvent(Slider::Action::MOVE, Mouse::Action::MOVED, Slider::Axis::X, slider->value());
+}
+
+void GUIService::ControlPanel::onHorizontalMoveSliderMouseReleasedEvent()
+{
+    QSlider* slider = sliders[Slider::HORIZONTAL_MOVE_SLIDER_NAME];
+    emit sliderMouseEvent(Slider::Action::MOVE, Mouse::Action::RELEASED, Slider::Axis::X, slider->value());
+}
+
+void GUIService::ControlPanel::onVerticalMoveSliderMousePressedEvent()
+{
+    QSlider* slider = sliders[Slider::VERTICAL_MOVE_SLIDER_NAME];
+    emit sliderMouseEvent(Slider::Action::MOVE, Mouse::Action::PRESSED, Slider::Axis::Y, slider->value());
+}
+
+void GUIService::ControlPanel::onVerticalMoveSliderMouseMovedEvent(int position)
+{
+    QSlider* slider = sliders[Slider::VERTICAL_MOVE_SLIDER_NAME];
+    emit sliderMouseEvent(Slider::Action::MOVE, Mouse::Action::MOVED, Slider::Axis::Y, slider->value());
+}
+
+void GUIService::ControlPanel::onVerticalMoveSliderMouseReleasedEvent()
+{
+    QSlider* slider = sliders[Slider::VERTICAL_MOVE_SLIDER_NAME];
+    emit sliderMouseEvent(Slider::Action::MOVE, Mouse::Action::RELEASED, Slider::Axis::Y, slider->value());
+}
+
 void GUIService::ControlPanel::setUpSignalSlotConnections(QSlider* slider)
 {
     // Slider -> Control Panel
@@ -130,10 +166,14 @@ void GUIService::ControlPanel::setUpSignalSlotConnections(QSlider* slider)
         connect(slider, &QSlider::sliderReleased, this, &GUIService::ControlPanel::onYawSliderMouseReleasedEvent);
 
     } else if ( sliderId == Slider::HORIZONTAL_MOVE_SLIDER_NAME ) {
-        // TODO
+        connect(slider, &QSlider::sliderPressed, this, &GUIService::ControlPanel::onHorizontalMoveSliderMousePressedEvent);
+        connect(slider, &QSlider::sliderMoved, this, &GUIService::ControlPanel::onHorizontalMoveSliderMouseMovedEvent);
+        connect(slider, &QSlider::sliderReleased, this, &GUIService::ControlPanel::onHorizontalMoveSliderMouseReleasedEvent);
 
     } else if ( sliderId == Slider::VERTICAL_MOVE_SLIDER_NAME ) {
-        // TODO
+        connect(slider, &QSlider::sliderPressed, this, &GUIService::ControlPanel::onVerticalMoveSliderMousePressedEvent);
+        connect(slider, &QSlider::sliderMoved, this, &GUIService::ControlPanel::onVerticalMoveSliderMouseMovedEvent);
+        connect(slider, &QSlider::sliderReleased, this, &GUIService::ControlPanel::onVerticalMoveSliderMouseReleasedEvent);
 
     } else if ( sliderId == Slider::ZOOM_SLIDER_NAME ) {
         connect(slider, &QSlider::sliderPressed, this, &GUIService::ControlPanel::onZoomSliderMousePressedEvent);
