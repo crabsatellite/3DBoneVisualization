@@ -33,3 +33,61 @@ https://github.com/datalad/example-dicom-structural
 
 Vtk Version:
 8.2.0
+
+#include "itkImageFileReader.h"
+#include "itkBinaryMask3DMeshSource.h"
+#include "itkImage.h"
+
+int main(int argc, char \* argv[] )
+{
+if( argc < 3 )
+{
+std::cerr << "Usage: IsoSurfaceExtraction inputImageFile objectValue " << std::endl;
+return EXIT_FAILURE;
+}
+
+const unsigned int Dimension = 3;
+typedef unsigned char PixelType;
+typedef itk::Image< PixelType, Dimension > ImageType;
+
+typedef itk::ImageFileReader< ImageType > ReaderType;
+ReaderType::Pointer reader = ReaderType::New();
+reader->SetFileName( argv[1] );
+
+try
+{
+reader->Update();
+}
+catch( itk::ExceptionObject & exp )
+{
+std::cerr << "Exception thrown while reading the input file " << std::endl;
+std::cerr << exp << std::endl;
+return EXIT_FAILURE;
+}
+
+typedef itk::Mesh<double> MeshType;
+
+typedef itk::BinaryMask3DMeshSource< ImageType, MeshType > MeshSourceType;
+MeshSourceType::Pointer meshSource = MeshSourceType::New();
+
+const PixelType objectValue = static_cast<PixelType>( atof( argv[2] ) );
+meshSource->SetObjectValue( objectValue );
+
+meshSource->SetInput( reader->GetOutput() );
+
+try
+{
+meshSource->Update();
+}
+catch( itk::ExceptionObject & exp )
+{
+std::cerr << "Exception thrown during Update() " << std::endl;
+std::cerr << exp << std::endl;
+return EXIT_FAILURE;
+}
+
+std::cout << "Nodes = " << meshSource->GetNumberOfNodes() << std::endl;
+std::cout << "Cells = " << meshSource->GetNumberOfCells() << std::endl;
+
+return EXIT_SUCCESS;
+}

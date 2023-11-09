@@ -26,13 +26,9 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(OpenGL REQUIRED)
 
 set(ITK_DIR ./itk/bin)
-set(VTK_DIR ./vtk/bin)
 find_package(ITK REQUIRED)
-find_package(VTK REQUIRED)
 include_directories (${ITK_USE_FILE})
-include_directories (${VTK_USE_FILE})
 include_directories(${ITK_INCLUDE_DIRS})
-include_directories(${VTK_INCLUDE_DIRS})
 
 #######################################################
 # Set project specific source files
@@ -104,5 +100,4 @@ target_link_libraries(3DBoneVisualization PRIVATE
 
 target_include_directories(3DBoneVisualization PRIVATE
   ${ITK_INCLUDE_DIRS}
-  ${VTK_INCLUDE_DIRS}
 )
