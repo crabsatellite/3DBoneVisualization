@@ -21,18 +21,21 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 #######################################################
 # Find 3rd party libraries
 #######################################################
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
-find_package(OpenGL REQUIRED)
 
-set(ITK_DIR ./itk/bin)
-set(VTK_DIR ./vtk/bin)
+find_package(OpenGL REQUIRED)
+find_package(Qt5Core REQUIRED)
+find_package(Qt5Gui REQUIRED)
+find_package(Qt5OpenGL REQUIRED)
+find_package(Qt5Xml REQUIRED)
+find_package(Qt5Widgets REQUIRED)
+
+set(ITK_DIR $ENV{ITK_DIR}) 
 find_package(ITK REQUIRED)
+include(${ITK_USE_FILE})
+
+set(VTK_DIR $ENV{VTK_DIR}) 
 find_package(VTK REQUIRED)
-include_directories (${ITK_USE_FILE})
-include_directories (${VTK_USE_FILE})
-include_directories(${ITK_INCLUDE_DIRS})
-include_directories(${VTK_INCLUDE_DIRS})
+include(${VTK_USE_FILE})
 
 #######################################################
 # Set project specific source files
@@ -98,11 +101,18 @@ add_executable(3DBoneVisualization ${PROJECT_SOURCES})
 # Link 3rd party libraries to project executable
 #######################################################
 target_link_libraries(3DBoneVisualization PRIVATE
-  Qt${QT_VERSION_MAJOR}::Widgets
+  Qt5::OpenGL
+  Qt5::Xml
+  Qt5::Widgets
+  ${QT_LIBRARIES}
   ${OPENGL_LIBRARIES}
+  ${ITK_LIBRARIES}
+  ${VTK_LIBRARIES}
 )
 
 target_include_directories(3DBoneVisualization PRIVATE
   ${ITK_INCLUDE_DIRS}
   ${VTK_INCLUDE_DIRS}
+  ${INCLUDE_DIR}
+  ${SOURCE_DIR}
 )
