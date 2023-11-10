@@ -33,11 +33,21 @@ public:
 //**********************************************************************
 // Public methods
 //**********************************************************************
-    void onStartMouseClickEvent(float mouseClickPosX, float mouseClickPosY);
-    void onProcessMouseClickEvent(float mouseClickPosX, float mouseClickPosY, float sensitivity = 1.0);
-    void onStopMouseClickEvent(float mouseClickPosX, float mouseClickPosY);
-    void onMouseWheelEvent(int delta);
-    bool isStartMouseClickEvent() const { return startMouseClickEvent; }
+
+    // Rotation
+    bool isStartRotationEvent() const { return startRotationEvent; }
+    void onStartRotationEvent(float curFocusPosX, float curFocusPosY);
+    void onProcessRotationEvent(float curFocusPosX, float curFocusPosY, float sensitivity = 1.0);
+    void onStopRotationEvent(float curFocusPosX, float curFocusPosY);
+
+    // Zoom
+    void onProcessZoomEvent(int delta);
+
+    // Move
+    bool isStartPanEvent() const { return startPanEvent; }
+    void onStartPanEvent(float curFocusPosX, float curFocusPosY);
+    void onProcessPanEvent(float curFocusPosX, float curFocusPosY, float sensitivity = 1.0);
+    void onStopPanEvent(float curFocusPosX, float curFocusPosY);
 
     void setCamera(RenderService::Camera* camera);
 
@@ -51,9 +61,10 @@ private:
 //**********************************************************************
 // Private attributes
 //**********************************************************************
-    bool startMouseClickEvent = false;
-    float lastMouseClickPosX;
-    float lastMouseClickPosY;
+    bool startRotationEvent = false;
+    bool startPanEvent = false;
+    float lastFocusPosX;
+    float lastFocusPosY;
     float yawAngle = -M_PI / 2;
     float pitchAngle = 0.0;
     float yawAngleDelta = 0.0;

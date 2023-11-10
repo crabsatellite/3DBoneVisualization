@@ -51,6 +51,14 @@ private:
     void onZoomSliderMouseMovedEvent(int position);
     void onZoomSliderMouseReleasedEvent();
 
+    void onHorizontalMoveSliderMousePressedEvent();
+    void onHorizontalMoveSliderMouseMovedEvent(int position);
+    void onHorizontalMoveSliderMouseReleasedEvent();
+
+    void onVerticalMoveSliderMousePressedEvent();
+    void onVerticalMoveSliderMouseMovedEvent(int position);
+    void onVerticalMoveSliderMouseReleasedEvent();
+
     void setUpSignalSlotConnections(QSlider* slider);
 
 private:
