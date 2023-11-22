@@ -1,15 +1,24 @@
 #ifndef IMAGE_PROCESSOR_H
 #define IMAGE_PROCESSOR_H
 
-#include <QStringList>
+#include <vtkSmartPointer.h>
+#include <vtkDICOMImageReader.h>
+#include <vtkMarchingCubes.h>
+#include <vtkPolyDataMapper.h>
+#include <vtkActor.h>
+#include <vtkRenderer.h>
+#include <vtkGenericOpenGLRenderWindow.h>
+#include <QString>
+#include <vtkImageData.h>
 
-class ImageProcessor {
+class ImageProcessor
+{
 public:
     ImageProcessor();
-    void processDicomFiles(const QStringList& fileNames);
+    vtkSmartPointer<vtkGenericOpenGLRenderWindow> processDICOM(const QString& directory);
 
 private:
-    void processSingleDicomFile(const QString& fileName);
+    double determineThreshold(vtkSmartPointer<vtkDICOMImageReader> reader);
 };
 
 #endif // IMAGE_PROCESSOR_H

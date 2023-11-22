@@ -33,7 +33,7 @@ set(ITK_DIR $ENV{ITK_DIR})
 find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
 
-set(VTK_DIR $ENV{VTK_DIR}) 
+set(VTK_DIR $ENV{VTK_DIR})
 find_package(VTK REQUIRED)
 include(${VTK_USE_FILE})
 
