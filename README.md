@@ -1,6 +1,6 @@
 # DICOMImage3DBuilder
 
-[Demo Video](http://www.youtube.com/watch?v=VIDEO_ID "Video Title")
+[Demo Video](https://personalwebpage-videos.s3.us-east-2.amazonaws.com/DICOMImage3DBuilder_demo.mp4)
 
 ## Requirements
 
