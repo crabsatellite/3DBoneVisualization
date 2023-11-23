@@ -10,12 +10,15 @@
 #include <vtkGenericOpenGLRenderWindow.h>
 #include <QString>
 #include <vtkImageData.h>
+#include <vector>
+#include <algorithm>
 
 class ImageProcessor
 {
 public:
     ImageProcessor();
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> processDICOM(const QString& directory);
+    std::vector<double> findHistogramPeaks(vtkSmartPointer<vtkDICOMImageReader> reader);
 
 private:
     double determineThreshold(vtkSmartPointer<vtkDICOMImageReader> reader);

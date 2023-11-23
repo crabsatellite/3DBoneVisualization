@@ -4,7 +4,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "./gui_service/toolbar.h"
-#include "./gui_service/controlpanel.h"
 #include "./render_service/renderproxy.h"
 #include "./image_process_service/image_processor.h"
 
@@ -27,10 +26,6 @@ MainWindow::MainWindow(QWidget *parent) :
     // Setup Toolbar
     toolbar.reset(new GUIService::ToolBar());
     toolbar->setupToolbar(this);
-
-    // Setup Right Panel
-    controlPanel.reset(new GUIService::ControlPanel());
-    controlPanel->setupRightPanel(this);
 
     // Setup Status Bar
     statusbar.reset(new QStatusBar(this));
@@ -78,6 +73,4 @@ void MainWindow::setUpSignalSlotConnections()
     RenderService::RenderProxy* renderProxy = dynamic_cast<RenderService::RenderProxy*>(widgetList.at(0));
     Q_ASSERT(renderProxy != nullptr);
 
-    // Control Panel -> Render Proxy
-    connect(controlPanel.data(), &GUIService::ControlPanel::sliderMouseEvent, renderProxy, &RenderService::RenderProxy::onSliderMouseEvent);
 }
