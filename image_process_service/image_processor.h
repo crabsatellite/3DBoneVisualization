@@ -10,8 +10,6 @@
 #include <vtkGenericOpenGLRenderWindow.h>
 #include <QString>
 #include <vtkImageData.h>
-#include <vector>
-#include <algorithm>
 
 class ImageProcessor
 {
@@ -21,7 +19,6 @@ public:
     std::vector<double> findHistogramPeaks(vtkSmartPointer<vtkDICOMImageReader> reader);
 
 private:
-    double determineThreshold(vtkSmartPointer<vtkDICOMImageReader> reader);
 };
 
 #endif // IMAGE_PROCESSOR_H

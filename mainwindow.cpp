@@ -23,6 +23,9 @@ MainWindow::MainWindow(QWidget *parent) :
     // Setup ui
     ui->setupUi(this);
 
+    // Set Window Title
+    setWindowTitle("DICOMImage3DBuilder");
+
     // Setup Toolbar
     toolbar.reset(new GUIService::ToolBar());
     toolbar->setupToolbar(this);

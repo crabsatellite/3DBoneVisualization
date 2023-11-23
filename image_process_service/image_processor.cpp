@@ -61,10 +61,3 @@ vtkSmartPointer<vtkGenericOpenGLRenderWindow> ImageProcessor::processDICOM(const
 
     return renderWindow;
 }
-
-double ImageProcessor::determineThreshold(vtkSmartPointer<vtkDICOMImageReader> reader)
-{
-    double range[2];
-    reader->GetOutput()->GetScalarRange(range);
-    return (range[0] + range[1]) / 2;
-}
