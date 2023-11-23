@@ -1,57 +1,60 @@
-# 3DBoneVisualization
+# DICOMImage3DBuilder
 
-### QT Configuration
+## Requirements
 
-Add `QTDIR` to your environment variable settings as:
+- VTK Version: 8.2.0
+- Qt Version: 5.9.0
 
-Step1. Add new variable: 
-`QTDIR` -> `{YOUR_QT_DIRECTORY_TO_MSVC2017}`
+## Overview
 
-for example: `C:\Qt\Qt5.9.1\5.9.1\msvc2017_64`
+DICOMImage3DBuilder is a specialized tool for converting a sequence of DICOM images into a 3D visualization using the VTK library. This tool allows for an enhanced analysis of DICOM image data, providing a more detailed and spatial understanding of the images.
 
-Step2. Add this variable to the path as:
+## How Does It Work?
 
-`%QTDIR%\bin`
+Reading following functions to understand how the tool works:
 
+### `findHistogramPeaks` Function
 
-### Build ITK Library
+This function is designed to identify histogram peaks within a sequence of DICOM images. It works by:
 
-Step1. Clone the ITK libary to local host:
+- Defining the total number of bins for the histogram.
+- Calculating the width of each bin based on the value range of the image data.
+- Assigning each pixel value to the corresponding bin.
+- Identifying peaks by comparing the frequency of each bin with its neighbors.
+  The function ultimately returns a vector of values representing these peaks, which are key to understanding the data distribution in the DICOM images.
 
-`git clone -b v5.3.0 https://github.com/InsightSoftwareConsortium/ITK ITK-5.3.0`
+### `processDICOM` Function
 
-Step2. Create `itk/src` and `itk/build` directory in your project:
+The `processDICOM` function processes DICOM images for 3D rendering. Its steps include:
 
-2.1 Create a `itk/src` folder under your project directory:
+- Reading a directory of DICOM images.
+- Using `findHistogramPeaks` to find histogram peaks in the image data.
+- Applying the Marching Cubes algorithm for each peak to create a 3D surface representation.
+- Rendering each 3D model separately using a vtkRenderer, allowing detailed visual representation of the DICOM data in 3D space.
 
-e.g. You should have directory such as this: `${YOUR_PROJECT_DIRECTORY}/itk/src` available, and then move all the files from Step1 to here
+## Building VTK Library
 
-2.2 Create a `itk/build` folder under your project directory:
+For setting up the VTK library, please refer to the following tutorial:
+[Tutorial on YouTube](https://www.youtube.com/watch?v=u5-Df1YlxCI&t=775s)
 
-e.g. You should have directory such as this: `${YOUR_PROJECT_DIRECTORY}/itk/build` available
+## How to Use
 
-Step3. Build the ITK with CMake GUI
+(Add instructions on how to use your software, how to import DICOM images, how the 3D transformation is performed, and how to navigate the visualization.)
 
-Enter the source code and binaries directory accordingly as below:
+## Contributing
 
-Where is the source code: `${YOUR_PROJECT_DIRECTORY}/itk/src`
+If you want to contribute to this project and make it better with new ideas, your pull request is very welcomed.
 
-Where to build the binaries: `${YOUR_PROJECT_DIRECTORY}/itk/build`
+Eg. You can improve the existing UI or add new features to the tool.
 
-Click `Configure`, after it is done, click `Generate`, this step should take a while to complete
+If you find any issue just put it in the repository issue section.
 
-Step4. Open the ITK project in visual studio and build
+## License
 
-Step5. Add ITK_DIR to your environment variable settings as:
+MIT License
 
-`ITK_DIR` -> `{YOUR_PROJECT_DIRECTORY}/itk/build`
+## Other Information
 
-Datasets:
-https://github.com/datalad/example-dicom-structural
+The project currently is using a seperated OpenGL library because of the potential future plans.
 
-### Build VTK Library
-
-Tutorial: https://www.youtube.com/watch?v=u5-Df1YlxCI&t=775s
-
-Vtk Version: 8.2.0
-
+But it is not necessary for the core functions of the project.
