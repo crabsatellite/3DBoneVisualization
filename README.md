@@ -39,10 +39,6 @@ The `processDICOM` function processes DICOM images for 3D rendering. Its steps i
 For setting up the VTK library, please refer to the following tutorial:
 [Tutorial on YouTube](https://www.youtube.com/watch?v=u5-Df1YlxCI&t=775s)
 
-## How to Use
-
-(Add instructions on how to use your software, how to import DICOM images, how the 3D transformation is performed, and how to navigate the visualization.)
-
 ## Contributing
 
 If you want to contribute to this project and make it better with new ideas, your pull request is very welcomed.
