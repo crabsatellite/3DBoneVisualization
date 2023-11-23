@@ -7,7 +7,11 @@
 #include "./gui_service/controlpanel.h"
 #include "./render_service/renderproxy.h"
 #include "./image_process_service/image_processor.h"
+
 #include <QFileDialog>
+#include <QDir>v
+#include <QLayout>
+#include <QVTKOpenGLNativeWidget.h>
 
 //**********************************************************************
 // Class method definitions
@@ -41,27 +45,30 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
 void MainWindow::onOpenFile()
 {
-    QString defaultDicomPath = QDir::current().absoluteFilePath("dicoms");
-    QStringList fileNames = QFileDialog::getOpenFileNames(
-                                this,
-                                tr("Open DICOM Files"),
-                                defaultDicomPath,
-                                tr("DICOM Files (*.dcm)")
-                            );
+    QString directory = QFileDialog::getExistingDirectory(
+        this, tr("Open DICOM Directory"), QDir::current().absoluteFilePath("dicoms"));
 
-    if (!fileNames.isEmpty()) {
-        loadedDicomFiles.clear();
-        for (const QString &fileName : fileNames) {
-            qDebug() << "Selected DICOM file:" << fileName;
-            loadedDicomFiles.append(fileName);
+    if (!directory.isEmpty()) {
+        ImageProcessor processor;
+        auto renderWindow = processor.processDICOM(directory);
+
+        auto vtkWidget = new QVTKOpenGLNativeWidget(this);
+        QLayout* layout = ui->centralwidget->layout();
+        if (!layout) {
+            layout = new QVBoxLayout(ui->centralwidget);
+            ui->centralwidget->setLayout(layout);
         }
+        layout->addWidget(vtkWidget);
 
-        ImageProcessor imageProcessor;
-        imageProcessor.processDicomFiles(loadedDicomFiles);
+        // Set Render Window
+        vtkWidget->SetRenderWindow(renderWindow);
+        vtkWidget->GetRenderWindow()->Render();
     }
 }
+
 
 void MainWindow::setUpSignalSlotConnections()
 {
