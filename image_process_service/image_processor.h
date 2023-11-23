@@ -16,9 +16,9 @@ class ImageProcessor
 public:
     ImageProcessor();
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> processDICOM(const QString& directory);
-    std::vector<double> findHistogramPeaks(vtkSmartPointer<vtkDICOMImageReader> reader);
 
 private:
+    std::vector<double> findHistogramPeaks(vtkSmartPointer<vtkDICOMImageReader> reader);
 };
 
 #endif // IMAGE_PROCESSOR_H
