@@ -61,3 +61,4 @@ Upon launching the app, you might notice a colorful cube, which serves as a plac
 
 Processing the DICOM images may take several minutes. During this time, you may experience some screen lag – this is normal.
 
+You can check the [release page](https://github.com/crabsatellite/DICOMImage3DBuilder/releases/tag/exe-file-example) to directly try a demo.
