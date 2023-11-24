@@ -53,12 +53,11 @@ If you find any issue just put it in the repository issue section.
 
 MIT License
 
-## Other Information
+## Hints
 
-The project currently is using a seperated OpenGL library because of the potential future plans.
+The project currently incorporates a separate OpenGL library, primarily due to potential future enhancements. However, this library is not essential for the project's core functionalities.
 
-But it is not necessary for the core functions of the project.
+Upon launching the app, you might notice a colorful cube, which serves as a placeholder. To begin, click the 'Upload' button and select the folder containing your DICOM images.
 
-### You may see a colorful cube after launch the app, which is a place holder, click the upload to select the folder with dicom images. 
+Processing the DICOM images may take several minutes. During this time, you may experience some screen lag – this is normal.
 
-### It may takes minutes to process the dicom images. 
