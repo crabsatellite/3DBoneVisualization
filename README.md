@@ -11,6 +11,8 @@
 
 DICOMImage3DBuilder is a specialized tool for converting a sequence of DICOM images into a 3D visualization using the VTK library. This tool allows for an enhanced analysis of DICOM image data, providing a more detailed and spatial understanding of the images.
 
+This project is a structure for a dicom 3d visualization, it is welcomed to polish it, update UI make it more user friendly, etc. See Contributing. 
+
 ## How Does It Work?
 
 Reading following functions to understand how the tool works:
@@ -43,7 +45,7 @@ For setting up the VTK library, please refer to the following tutorial:
 
 If you want to contribute to this project and make it better with new ideas, your pull request is very welcomed.
 
-Eg. You can improve the existing UI or add new features to the tool.
+There are still a lot of things to do. Eg. You can improve the existing UI or add new features to the tool.
 
 If you find any issue just put it in the repository issue section.
 
@@ -58,3 +60,5 @@ The project currently is using a seperated OpenGL library because of the potenti
 But it is not necessary for the core functions of the project.
 
 ### You may see a colorful cube after launch the app, which is a place holder, click the upload to select the folder with dicom images. 
+
+### It may takes minutes to process the dicom images. 
