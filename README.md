@@ -57,4 +57,4 @@ The project currently is using a seperated OpenGL library because of the potenti
 
 But it is not necessary for the core functions of the project.
 
-###You may see a colorful cube after launch the app, which is a place holder, click the upload to select the folder with dicom images. 
+### You may see a colorful cube after launch the app, which is a place holder, click the upload to select the folder with dicom images. 
