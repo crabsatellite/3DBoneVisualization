@@ -29,10 +29,6 @@ find_package(Qt5OpenGL REQUIRED)
 find_package(Qt5Xml REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 
-set(ITK_DIR $ENV{ITK_DIR}) 
-find_package(ITK REQUIRED)
-include(${ITK_USE_FILE})
-
 set(VTK_DIR $ENV{VTK_DIR})
 find_package(VTK REQUIRED)
 include(${VTK_USE_FILE})
@@ -106,12 +102,10 @@ target_link_libraries(3DBoneVisualization PRIVATE
   Qt5::Widgets
   ${QT_LIBRARIES}
   ${OPENGL_LIBRARIES}
-  ${ITK_LIBRARIES}
   ${VTK_LIBRARIES}
 )
 
 target_include_directories(3DBoneVisualization PRIVATE
-  ${ITK_INCLUDE_DIRS}
   ${VTK_INCLUDE_DIRS}
   ${INCLUDE_DIR}
   ${SOURCE_DIR}
